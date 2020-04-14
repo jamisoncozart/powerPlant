@@ -33,22 +33,57 @@ const changeState = (prop) => {
   }
 }
 
-const feed = changeState("soil");
-const hydrate = changeState("water");
-const giveLight = changeState("light");
-// const fedPlant = feed(5)(plant = {});
+const redFoo = changeState("soil")(5);
+const waterPlant = changeState("water")(5);
+const sunPlant = changeState("sun")(5);
+
+const storeState = () => {
+  let currentState = {};
+  return (stateChangeFunction) => {
+    const newState = stateChangeFunction(currentState);
+    currentState = {...newState};
+    return newState;
+  }
+}
+
+const plantNamedJack = storeState();
+const plant2 = storeState();
+
+// const plantNamedJack = stateChanger(redFoo);
+// console.log(plantNamedJack);
+// const plantNamedFred = stateChanger(redFoo);
+// console.log(plantNamedFred);
+// const fedPlant = stateChanger(redFoo);
+// console.log(fedPlant);
+
+const jacksCurrentStats = plantNamedJack(sunPlant);
+console.log(jacksCurrentStats);
+console.log(plantNamedJack(sunPlant));
+
+// const feedPlant = plant2(redFoo);
+// const water = plant2(waterPlant);
+// const water2 = plant2(waterPlant);
+
+// console.log(water2);
+
+// const feed = changeState("soil");
+// const hydrate = changeState("water");
+// const giveLight = changeState("light");
+// // const fedPlant = feed(5)(plant = {});
+// // console.log(fedPlant);
+
+// const feedStateByOne = changeState("soil");
+// const fedPlant = feedStateByOne(plant = {});
 // console.log(fedPlant);
 
 
-const feedStateByOne = changeState("soil");
-const fedPlant = feedStateByOne(plant = {});
-console.log(fedPlant);
+
 
 // (parameters) => <return statement>
-/////\\\\\\\\\//////\\\\\\///\\\
-///////////////\\\\\\\\\\\\\\\\\\
+///////\\\\\\\\/////////\\\\\\\\\
+///////\///////\\\\\\\\/\\\\\\\\\
 // ----- Great Notes ------ /////\
-///////////////\\\\\\\\\\\\\\\\\\\
+//\\\\\////////\\\\\\\\/\\\\\\\\\\\\\\HI OMG
 // let plant = { soil: 0, light: 0, water: 0 };
 // const newPlant = changePlantState(plant, "soil");
 
