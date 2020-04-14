@@ -19,14 +19,30 @@
 //   }
 // }
 
-const changeState = (state, prop, value) => ({
-    ...state,
-    [prop]: (state[prop] || 0) + value
-})
+// const changeState = (state, prop, value) => ({
+//     ...state,
+//     [prop]: (state[prop] || 0) + value
+// })
+
+const changeState = (prop) => {
+  return (value) => {
+    return (state) => ({
+      ...state,
+      [prop]: (state[prop] || 0) + value
+    })
+  }
+}
+
+const feed = changeState("soil");
+const hydrate = changeState("water");
+const giveLight = changeState("light");
+// const fedPlant = feed(5)(plant = {});
+// console.log(fedPlant);
 
 
-
-
+const feedStateByOne = changeState("soil");
+const fedPlant = feedStateByOne(plant = {});
+console.log(fedPlant);
 
 // (parameters) => <return statement>
 /////\\\\\\\\\//////\\\\\\///\\\
