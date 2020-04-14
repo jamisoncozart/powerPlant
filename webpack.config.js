@@ -5,7 +5,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 
 module.exports = {
-  entry: './src/main.js',
+  entry: './src/powerPlant.js',
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist')

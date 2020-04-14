@@ -1,41 +1,4 @@
-// const hydrate = (plant) => {
-//   return {
-//     ...plant,
-//     water: (plant.water || 0) + 1
-//   }
-// }
-
-// const feed = (plant) => {
-//   return {
-//     ...plant,
-//     soil: (plant.soil || 0) + 1
-//   }
-// };
-
-// const changePlantState = (plant, property) => {
-//   return {
-//     ...plant,
-//     [property]: (plant[property] || 0) + 1
-//   }
-// }
-
-// const changeState = (state, prop, value) => ({
-//     ...state,
-//     [prop]: (state[prop] || 0) + value
-// })
-
-const changeState = (prop) => {
-  return (value) => {
-    return (state) => ({
-      ...state,
-      [prop]: (state[prop] || 0) + value
-    })
-  }
-}
-
-const redFoo = changeState("soil")(5);
-const waterPlant = changeState("water")(5);
-const sunPlant = changeState("sun")(5);
+// This function stores our state.
 
 const storeState = () => {
   let currentState = {};
@@ -46,8 +9,32 @@ const storeState = () => {
   }
 }
 
-const plantNamedJack = storeState();
-const plant2 = storeState();
+const stateChanger = storeState();
+
+// This is a function factory. We can easily create more specific functions that alter a plant's soil, water, and light to varying degrees. 
+
+const changeState = (prop) => {
+  return (value) => {
+    return (state) => ({
+      ...state,
+      [prop]: (state[prop] || 0) + value
+    })
+  }
+}
+
+// We create two functions using our function factory. We could easily create many more.
+
+const feed = changeState("soil")(5);
+// const water = changeState("water")(5);
+// const sun = changeState("sun")(5);
+
+$(document).ready(function() {
+  // This function has side effects because we are using jQuery. Manipulating the DOM will always be a side effect.
+  $('#feed').click(function() {
+    const newState = stateChanger(feed);
+    $('#soil-value').text(newState.soil);
+  })
+})
 
 // const plantNamedJack = stateChanger(redFoo);
 // console.log(plantNamedJack);
@@ -55,10 +42,6 @@ const plant2 = storeState();
 // console.log(plantNamedFred);
 // const fedPlant = stateChanger(redFoo);
 // console.log(fedPlant);
-
-const jacksCurrentStats = plantNamedJack(sunPlant);
-console.log(jacksCurrentStats);
-console.log(plantNamedJack(sunPlant));
 
 // const feedPlant = plant2(redFoo);
 // const water = plant2(waterPlant);
