@@ -1,30 +1,38 @@
 // This function stores our state.
 
-// const storeState = () => {
-//   let currentState = {};
-//   return (stateChangeFunction) => {
-//     const newState = stateChangeFunction(currentState);
-//     currentState = {...newState};
-//     return newState;
-//   }
-// }
-
-const storeAllStates = () => {
-  let overallState = {};
-  return () => {
-    let currentState = {};
-    return (stateChangeFunction) => {
-      const newState = stateChangeFunction(currentState);
-      currentState = {...newState};
-      overallState = {...overallState, currentState};
-      return overallState;
-    }
+const storeState = (initialState) => {
+  let currentState = initialState;
+  return (stateChangeFunction) => {
+    const newState = stateChangeFunction(currentState);
+    currentState = {...newState};
+    return newState;
   }
 }
 
-const allPlants = storeAllStates();
-const p1StateChanger = allPlants();
-const p2StateChanger = allPlants();
+// const storeAllStates = () => {
+//   let overallState = {};
+//   return () => {
+//     let currentState = {};
+//     return (stateChangeFunction) => {
+//       const newState = stateChangeFunction(currentState);
+//       currentState = {...newState};
+//       overallState = {...overallState, currentState};
+//       return overallState;
+//     }
+//   }
+// }
+
+// const allPlants = storeAllStates();
+// const p1StateChanger = allPlants();
+// const p2StateChanger = allPlants();
+
+
+const newStates = storeState({water: 10, food: 24, sun: 5});
+const nursery = newStates.map(function(state) {
+  return state
+});
+
+
 
 
 // This is a function factory. We can easily create more specific functions that alter a plant's soil, water, and light to varying degrees. 
