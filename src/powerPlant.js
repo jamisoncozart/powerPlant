@@ -1,15 +1,31 @@
 // This function stores our state.
 
-const storeState = () => {
-  let currentState = {};
-  return (stateChangeFunction) => {
-    const newState = stateChangeFunction(currentState);
-    currentState = {...newState};
-    return newState;
+// const storeState = () => {
+//   let currentState = {};
+//   return (stateChangeFunction) => {
+//     const newState = stateChangeFunction(currentState);
+//     currentState = {...newState};
+//     return newState;
+//   }
+// }
+
+const storeAllStates = () => {
+  let overallState = {};
+  return () => {
+    let currentState = {};
+    return (stateChangeFunction) => {
+      const newState = stateChangeFunction(currentState);
+      currentState = {...newState};
+      overallState = {...overallState, currentState};
+      return overallState;
+    }
   }
 }
 
-const stateChanger = storeState();
+const allPlants = storeAllStates();
+const p1StateChanger = allPlants();
+const p2StateChanger = allPlants();
+
 
 // This is a function factory. We can easily create more specific functions that alter a plant's soil, water, and light to varying degrees. 
 
@@ -25,16 +41,48 @@ const changeState = (prop) => {
 // We create two functions using our function factory. We could easily create many more.
 
 const feed = changeState("soil")(5);
-// const water = changeState("water")(5);
-// const sun = changeState("sun")(5);
+const water = changeState("water")(5);
+const sun = changeState("sun")(5);
 
-$(document).ready(function() {
-  // This function has side effects because we are using jQuery. Manipulating the DOM will always be a side effect.
-  $('#feed').click(function() {
-    const newState = stateChanger(feed);
-    $('#soil-value').text(newState.soil);
-  })
-})
+p1StateChanger(feed);
+p1StateChanger(water);
+p1StateChanger(sun);
+
+p2StateChanger(feed);
+p2StateChanger(water);
+const allPlantStats = p2StateChanger(sun);
+
+console.log(allPlantStats);
+
+
+// $(document).ready(function() {
+//   // This function has side effects because we are using jQuery. Manipulating the DOM will always be a side effect.
+//   $('#feed-p1').click(function() {
+//     const newState = p1StateChanger(feed);
+//     $('#p1-soil-value').text(newState.soil);
+//   });
+//   $('#water-p1').click(function() {
+//     const newState = p1StateChanger(water);
+//     $('#p1-water-value').text(newState.water);
+//   });
+//   $('#sun-p1').click(function() {
+//     const newState = p1StateChanger(sun);
+//     $('#p1-sun-value').text(newState.sun);
+//   });
+
+//   // $('#feed-p2').click(function() {
+//   //   const newState = p2StateChanger(feed);
+//   //   $('#p2-soil-value').text(newState.soil);
+//   // });
+//   // $('#water-p2').click(function() {
+//   //   const newState = p2StateChanger(water);
+//   //   $('#p2-water-value').text(newState.water);
+//   // });
+//   // $('#sun-p2').click(function() {
+//   //   const newState = p2StateChanger(sun);
+//   //   $('#p2-sun-value').text(newState.sun);
+//   // });
+// });
 
 // const plantNamedJack = stateChanger(redFoo);
 // console.log(plantNamedJack);
@@ -58,9 +106,6 @@ $(document).ready(function() {
 // const feedStateByOne = changeState("soil");
 // const fedPlant = feedStateByOne(plant = {});
 // console.log(fedPlant);
-
-
-
 
 // (parameters) => <return statement>
 ///////\\\\\\\\/////////\\\\\\\\\
